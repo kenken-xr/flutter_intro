@@ -66,14 +66,9 @@ class Intro extends InheritedWidget {
   IntroStatus get status => IntroStatus(isOpen: _overlayEntry != null);
 
   bool get hasNextStep {
-    print("_currentIntroStepBuilder $_currentIntroStepBuilder");
     return  _currentIntroStepBuilder == null ||
         _introStepBuilderList.where(
               (element) {
-                print("element $element");
-                print("element.order ${element.order}");
-                print("_currentIntroStepBuilder!.order ${_currentIntroStepBuilder!.order}");
-                print("element.order > _currentIntroStepBuilder!.order ${element.order > _currentIntroStepBuilder!.order}");
             return element.order > _currentIntroStepBuilder!.order;
           },
         ).length >
@@ -226,13 +221,6 @@ class Intro extends InheritedWidget {
     if (!_finishedIntroStepBuilderList.contains(introStepBuilder)) {
       _finishedIntroStepBuilderList.add(introStepBuilder);
     }
-
-    if (introStepBuilder.overlayBuilder != null) {
-      if(hasNextStep){
-        print("render $_render");
-      }else{
-        print("null");
-      }
       _overlayWidget = Stack(
         children: [
           Positioned(
@@ -241,7 +229,6 @@ class Intro extends InheritedWidget {
                 StepWidgetParams(
                   order: introStepBuilder.order,
                   onNext: (){
-                    print("onNext");
                     hasNextStep ? _render : null;
                   },
                   onPrev: hasPrevStep
