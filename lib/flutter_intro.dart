@@ -221,6 +221,7 @@ class Intro extends InheritedWidget {
     if (!_finishedIntroStepBuilderList.contains(introStepBuilder)) {
       _finishedIntroStepBuilderList.add(introStepBuilder);
     }
+    if (introStepBuilder.overlayBuilder != null) {
       _overlayWidget = Stack(
         children: [
           Positioned(
