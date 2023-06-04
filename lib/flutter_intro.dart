@@ -65,14 +65,21 @@ class Intro extends InheritedWidget {
 
   IntroStatus get status => IntroStatus(isOpen: _overlayEntry != null);
 
-  bool get hasNextStep =>
-      _currentIntroStepBuilder == null ||
-      _introStepBuilderList.where(
-            (element) {
-              return element.order > _currentIntroStepBuilder!.order;
-            },
-          ).length >
-          0;
+  bool get hasNextStep {
+    print("_currentIntroStepBuilder $_currentIntroStepBuilder");
+    return  _currentIntroStepBuilder == null ||
+        _introStepBuilderList.where(
+              (element) {
+                print("element $element");
+                print("element.order ${element.order}");
+                print("_currentIntroStepBuilder!.order ${_currentIntroStepBuilder!.order}");
+                print("element.order > _currentIntroStepBuilder!.order ${element.order > _currentIntroStepBuilder!.order}");
+            return element.order > _currentIntroStepBuilder!.order;
+          },
+        ).length >
+            0;
+  }
+
 
   bool get hasPrevStep =>
       _finishedIntroStepBuilderList
@@ -221,6 +228,11 @@ class Intro extends InheritedWidget {
     }
 
     if (introStepBuilder.overlayBuilder != null) {
+      if(hasNextStep){
+        print("render $_render");
+      }else{
+        print("null");
+      }
       _overlayWidget = Stack(
         children: [
           Positioned(
@@ -228,7 +240,10 @@ class Intro extends InheritedWidget {
               child: introStepBuilder.overlayBuilder!(
                 StepWidgetParams(
                   order: introStepBuilder.order,
-                  onNext: hasNextStep ? _render : null,
+                  onNext: (){
+                    print("onNext");
+                    hasNextStep ? _render : null;
+                  },
                   onPrev: hasPrevStep
                       ? () {
                           _render(reverse: true);
@@ -380,6 +395,10 @@ class Intro extends InheritedWidget {
     _render(
       isUpdate: true,
     );
+  }
+
+  void next() {
+    _render();
   }
 
   static Intro of(BuildContext context) {
